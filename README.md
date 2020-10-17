@@ -27,5 +27,5 @@
 ### 特别感谢：
 * [@NobyDa](https://github.com/NobyDa) 
 
-* [@chavyleung](https://github.com/chavyleung) 
+* [@chavyleung](https://github.com/chavyleung)  
  
