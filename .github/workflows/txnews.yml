@@ -9,7 +9,7 @@ name: txnews
 on:
   workflow_dispatch:
   schedule:
-     - cron: '*/7 1-23 * * *'
+     - cron: '*/8 1-14 * * *'
   watch:
      types: started
     
@@ -30,14 +30,12 @@ jobs:
         run: |
           node Task/txnews.js
         env:
-          TXNEWS_SIGN: ${{ secrets.TXNEWS_SIGN1 }}
-          TXNEWS_COOKIE: ${{ secrets.TXNEWS_COOKIE1 }}
-          TXNEWS_VIDEO: ${{ secrets.TXNEWS_VIDEO1 }}
+          TXNEWS_SIGN: ${{ secrets.TXNEWS_SIGN }}
+          TXNEWS_COOKIE: ${{ secrets.TXNEWS_COOKIE }}
+          TXNEWS_VIDEO: ${{ secrets.TXNEWS_VIDEO }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TXNEWS_NOTIFY_CONTROL: ${{ secrets.TXNEWS_NOTIFY_CONTROL }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           BARK_SOUND: ${{ secrets.BARK_SOUND }}
-          DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
-          DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
