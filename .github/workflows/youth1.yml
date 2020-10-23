@@ -23,14 +23,14 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【中青看点】'
+      - name: '运行 【中青看点1】'
         run: |
           node Task/youth1.js
         env:
-          YOUTH_HEADER: ${{ secrets.YOUTH_HEADER }}
-          YOUTH_ARTBODY: ${{ secrets.YOUTH_ARTBODY }}
-          YOUTH_REDBODY: ${{ secrets.YOUTH_REDBODY }}
-          YOUTH_TIME: ${{ secrets.YOUTH_TIME }}
+          YOUTH_HEADER: ${{ secrets.YOUTH_HEADER1 }}
+          YOUTH_ARTBODY: ${{ secrets.YOUTH_ARTBODY1 }}
+          YOUTH_REDBODY: ${{ secrets.YOUTH_REDBODY1 }}
+          YOUTH_TIME: ${{ secrets.YOUTH_TIME1 }}
           YOUTH_NOTIFY_CONTROL: ${{ secrets.YOUTH_NOTIFY_CONTROL }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
