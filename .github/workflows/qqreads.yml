@@ -6,7 +6,7 @@ name: qqreads
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/11 0-16 * * *'
+    - cron: '*/11 * * * *'
   watch:
     types: started
   repository_dispatch:
@@ -37,7 +37,7 @@ jobs:
           npm install
           npm install got
           npm install tough-cookie
-      - name: '运行 【企鹅读书】'
+      - name: '运行 【企鹅阅读】'
         run: |
-          node qqreads.js  
+          node qqreads.js
         
