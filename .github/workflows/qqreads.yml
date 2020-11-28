@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: QQreads
+          repository: pukarziu/QQreads
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -39,5 +39,5 @@ jobs:
           npm install tough-cookie
       - name: '运行 【企鹅读书】'
         run: |
-          node qqreads.js
+          node qqreads.js  
         
