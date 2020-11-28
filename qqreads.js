@@ -2,66 +2,11 @@
 
 本人github地址     https://github.com/ziye12/JavaScript 
 转载请备注个名字，谢谢
-
-11.25 增加 阅读时长上传，阅读金币，阅读随机金币
-11.25 修复翻倍宝箱不同时领取的问题.增加阅读金币判定
-11.25 修复阅读时长问题，阅读金币问题，请重新获取时长cookie
-11.26 随机金币只有一次，故去除，调整修复阅读金币问题，增加时长上传限制
-11.26 增加领取周时长奖励
-11.26 增加结束命令
-11.27 调整通知为，成功开启宝箱再通知
-
-⚠️cookie获取方法：
-
-进 https://m.q.qq.com/a/s/d3eacc70120b9a37e46bad408c0c4c2a  点我的   获取cookie
-
-进一本书 看 10秒以下 然后退出，获取阅读时长cookie，看书一定不能超过10秒
-
-可能某些页面会卡住，但是能获取到cookie，再注释cookie重写就行了！
-
-
-
-
-⚠️宝箱奖励为20分钟一次，自己根据情况设置定时，建议设置11分钟一次
-
-hostname=mqqapi.reader.qq.com
-
-############## 圈x
-
-#企鹅读书获取cookie
-https:\/\/mqqapi\.reader\.qq\.com\/mqq\/user\/init url script-request-header https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js
-
-
-#企鹅读书获取时长cookie
-https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? url script-request-header https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js
-
-
-
-############## loon
-
-//企鹅读书获取cookie
-http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/user\/init script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js,requires-header=true, tag=企鹅读书获取cookie 
-
-
-//企鹅读书获取时长cookie
-http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true, tag=企鹅读书获取时长cookie
-
-
-
-############## surge
-
-//企鹅读书获取cookie
-企鹅读书 = type=http-request,pattern=https:\/\/mqqapi\.reader\.qq\.com\/mqq\/user\/init,script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true
-
-
-//企鹅读书获取时长cookie
-企鹅读书 = type=http-request,pattern=https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true
-
-
 */
 
 const jsname = "企鹅读书";
 const $ = Env(jsname);
+
 const logs = 0; //0为关闭日志，1为开启
 const notifyInterval = 1;
 //0为关闭通知，1为所有通知，2为宝箱领取成功通知，3为宝箱每18次通知一次
@@ -79,24 +24,228 @@ let qqreadheaderVal, qqreadtimeurlVal, qqreadtimeheaderVal;
 const cookiesArr = [
   {
     qqreadheaderVal: JSON.stringify({
-      ywsession":"njg69tu26rspryl1t7zhxrgq6al0bzlh","Cookie":"ywguid=2316319610;ywkey=ywuRYM1FdNZa;platform=ios;channel=mqqmina;mpVersion=0.30.0","Connection":"keep-alive","Content-Type":"application/json","Accept":"*/*","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.9.604 CFNetwork/1126 Darwin/19.5.0","Referer":"https://appservice.qq.com/1110657249/0.30.0/page-frame.html","Accept-Language":"zh-cn","Accept-Encoding":"gzip, deflate, br","mpversion":"0.30.0",
+      ywsession: "akqgefkzoo98vw8o3pummos27qmvutuv",
+      Cookie:
+        "ywguid=511337556;ywkey=ywGpAO4K6kiz;platform=ios;channel=mqqmina;mpVersion=0.28.0",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.28.0",
     }),
     qqreadtimeurlVal:
-      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-shelf%2Findex&bid=26878703&readTime=7138&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A7138%2C%22pay_status%22%3A0%2C%22is_tail%22%3A0%7D%7D%5D&sp=-1",
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=1132&refer=-1&bid=26878703&readTime=8521&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%227%22%3A%7B%22readTime%22%3A8521%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1",
     qqreadtimeheaderVal: JSON.stringify({
-      ywsession: "ywsession":"ook2wkgr47fspci03b8xocjov6xgp2ej","Cookie":"ywguid=2316319610;ywkey=ywuRYM1FdNZa;platform=ios;channel=mqqmina;mpVersion=0.30.0;qq_ver=8.4.9;os_ver=iOS 13.5.1;mpos_ver=1.19.0;platform=ios;openid=8495B97B33D81A27A15A5FA41CB36EB2","Connection":"keep-alive","Content-Type":"application/json","Accept":"*/*","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.9.604 CFNetwork/1126 Darwin/19.5.0","Referer":"https://appservice.qq.com/1110657249/0.30.0/page-frame.html","Accept-Language":"zh-cn","Accept-Encoding":"gzip, deflate, br","mpversion":"0.30.0",
+      ywsession: "akqgefkzoo98vw8o3pummos27qmvutuv",
+      Cookie:
+        "ywguid=511337556;ywkey=ywGpAO4K6kiz;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=4B929B3A524660C1B25408BC127B08BD",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.28.0",
     }),
   },
   {
     qqreadheaderVal: JSON.stringify({
-      ywsession":"njg69tu26rspryl1t7zhxrgq6al0bzlh","Cookie":"ywguid=2316319610;ywkey=ywuRYM1FdNZa;platform=ios;channel=mqqmina;mpVersion=0.30.0","Connection":"keep-alive","Content-Type":"application/json","Accept":"*/*","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.9.604 CFNetwork/1126 Darwin/19.5.0","Referer":"https://appservice.qq.com/1110657249/0.30.0/page-frame.html","Accept-Language":"zh-cn","Accept-Encoding":"gzip, deflate, br","mpversion":"0.30.0",
+      ywsession: "omj1b4l2e4xusteb5kaka9kqn121didb",
+      Cookie:
+        "ywguid=1366188105;ywkey=ywgDXeUmmcGR;platform=ios;channel=mqqmina;mpVersion=0.28.0",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.28.0",
     }),
     qqreadtimeurlVal:
-      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-shelf%2Findex&bid=26878703&readTime=7138&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A7138%2C%22pay_status%22%3A0%2C%22is_tail%22%3A0%7D%7D%5D&sp=-1",
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=1132&refer=pages%2Findex%2Findex&bid=26878703&readTime=2469&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%225%22%3A%7B%22readTime%22%3A2469%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1",
     qqreadtimeheaderVal: JSON.stringify({
-      ywsession":"ook2wkgr47fspci03b8xocjov6xgp2ej","Cookie":"ywguid=2316319610;ywkey=ywuRYM1FdNZa;platform=ios;channel=mqqmina;mpVersion=0.30.0;qq_ver=8.4.9;os_ver=iOS 13.5.1;mpos_ver=1.19.0;platform=ios;openid=8495B97B33D81A27A15A5FA41CB36EB2","Connection":"keep-alive","Content-Type":"application/json","Accept":"*/*","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.9.604 CFNetwork/1126 Darwin/19.5.0","Referer":"https://appservice.qq.com/1110657249/0.30.0/page-frame.html","Accept-Language":"zh-cn","Accept-Encoding":"gzip, deflate, br","mpversion":"0.30.0",
+      ywsession: "mbcrzwaqe738ozkd9uaq3jfo3q3rh6uz",
+      Cookie:
+        "ywguid=1366188105;ywkey=ywgDXeUmmcGR;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=93388BFA540D2F75F34BA5F0C47E1880",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.28.0",
     }),
   },
+  {
+    qqreadheaderVal: JSON.stringify({
+      ywsession: "omj1b4l2e4xusteb5kaka9kqn121didb",
+      Cookie:
+        "ywguid=1370403071;ywkey=ywdqKvNqoKQ5;platform=ios;channel=mqqmina;mpVersion=0.29.4",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+    qqreadtimeurlVal:
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=-1&bid=26878703&readTime=6748&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A6748%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1",
+    qqreadtimeheaderVal: JSON.stringify({
+      ywsession: "ki0p80u9pavgonecjobq8hu9l5mtizhl",
+      Cookie:
+        "ywguid=1370403071;ywkey=ywdqKvNqoKQ5;platform=ios;channel=mqqmina;mpVersion=0.29.4;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=78A61281A4561EAFE986E71A2394F6FE",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+  },
+  {
+    qqreadheaderVal: JSON.stringify({
+      ywsession: "tobuqirnj7p8cfc4866e4exccsjfawco",
+      Cookie:
+        "ywguid=2354320946;ywkey=yw3KoOqH8xdL;platform=ios;channel=mqqmina;mpVersion=0.29.4",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+    qqreadtimeurlVal:
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2079&refer=-1&bid=32008350&readTime=9139&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%225%22%3A%7B%22readTime%22%3A5744%2C%22pay_status%22%3A0%2C%22is_tail%22%3A0%7D%7D%2C%7B%226%22%3A%7B%22readTime%22%3A3395%2C%22pay_status%22%3A0%7D%7D%5D&sp=%7B%22alg%22%3A%221.0.0%22%2C%22exact%22%3A0%2C%22origin%22%3A%22909%22%2C%22platform%22%3A%227%22%7D",
+    qqreadtimeheaderVal: JSON.stringify({
+      ywsession: "e4rxfcte99l2gz3uxyilsbnp9s88xaqf",
+      Cookie:
+        "ywguid=2354320946;ywkey=yw3KoOqH8xdL;platform=ios;channel=mqqmina;mpVersion=0.29.4;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=CE2C998426F15B1F68635D1B452B271A",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+  },
+  {
+    qqreadheaderVal: JSON.stringify({
+      ywsession: "f4stkd5cn8sn3sehtcqugpaxclmgk2ya",
+      Cookie:
+        "ywguid=2360687363;ywkey=yw4wU28tRUDq;platform=ios;channel=mqqmina;mpVersion=0.29.4",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+    qqreadtimeurlVal:
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=1132&refer=pages%2Fbook-read%2Findex&bid=26878703&readTime=3541&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%225%22%3A%7B%22readTime%22%3A3541%2C%22pay_status%22%3A0%2C%22is_tail%22%3A0%7D%7D%5D&sp=-1",
+    qqreadtimeheaderVal: JSON.stringify({
+      ywsession: "l954saly7hd7ow58twpgqm6bgqze6gyy",
+      Cookie:
+        "ywguid=2360687363;ywkey=yw4wU28tRUDq;platform=ios;channel=mqqmina;mpVersion=0.29.4;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=C0B3C30303413091DE05C40208E95830",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+  },
+  {
+    qqreadheaderVal: JSON.stringify({
+      ywsession: "ntinmp7s84sni9s02d3knfsrbrieetc",
+      Cookie:
+        "ywguid=1968855215;ywkey=ywLpxj4YlpuJ;platform=ios;channel=mqqmina;mpVersion=0.29.4",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+    qqreadtimeurlVal:
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2079&refer=pages%2Fbook-read%2Findex&bid=26878703&readTime=6709&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%222%22%3A%7B%22readTime%22%3A6709%2C%22pay_status%22%3A0%2C%22is_tail%22%3A0%7D%7D%5D&sp=-1",
+    qqreadtimeheaderVal: JSON.stringify({
+      ywsession: "e1g3ob5hfj4t7cdc4jxi33in4puhpvqm",
+      Cookie:
+        "ywguid=1968855215;ywkey=ywLpxj4YlpuJ;platform=ios;channel=mqqmina;mpVersion=0.29.4;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=4512C6BC84C3469EE0ACBE0D64103A7F",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+  },
+  {
+    qqreadheaderVal: JSON.stringify({
+      ywsession: "o1frn070qwk4qt6khugimxpx3scyqjf8",
+      Cookie:
+        "ywguid=1165790954;ywkey=ywv5xNO0LLnK;platform=ios;channel=mqqmina;mpVersion=0.29.4",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+    qqreadtimeurlVal:
+      "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2079&refer=-1&bid=26878703&readTime=7405&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A7405%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1",
+    qqreadtimeheaderVal: JSON.stringify({
+      ywsession: "e1g3ob5hfj4t7cdc4jxi33in4puhpvqm",
+      Cookie:
+        "ywguid=1165790954;ywkey=ywv5xNO0LLnK;platform=ios;channel=mqqmina;mpVersion=0.29.4;qq_ver=8.4.10;os_ver=iOS 13.7;mpos_ver=1.20.0;platform=ios;openid=BAF90427A27EC724AD86EFCC5C661A24",
+      Connection: "keep-alive",
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      Host: "mqqapi.reader.qq.com",
+      "User-Agent": "QQ/8.4.10.666 CFNetwork/1128.0.1 Darwin/19.6.0",
+      Referer: "https://appservice.qq.com/1110657249/0.28.0/page-frame.html",
+      "Accept-Language": "zh-cn",
+      "Accept-Encoding": "gzip, deflate, br",
+      mpversion: "0.29.4",
+    }),
+  },    
 ];
 
 var tz = "";
@@ -609,7 +758,7 @@ function showmsg() {
     box.data.count == 72
   )
     $.msg(jsname, "", tz); //宝箱每18次通知一次
-    tz = "";
+  tz=""
 }
 
 // prettier-ignore
