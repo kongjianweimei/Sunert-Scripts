@@ -6,7 +6,7 @@ name: qqreads
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0/20 * * *'
+    - cron: '*/11 0-16 * * *'
   watch:
     types: started
   repository_dispatch:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: jake3737/Sunert-Scripts
+          repository: pukarziu/QQreads
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -37,7 +37,7 @@ jobs:
           npm install
           npm install got
           npm install tough-cookie
-      - name: '运行 【QQ阅读】'
+      - name: '运行 【企鹅读书】'
         run: |
           node qqreads.js
         
