@@ -11,13 +11,13 @@ const $ = new Env('百度极速版')
 let CookieArr = [];
 
 if ($.isNode()) {
-  if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
-  StartBody = process.env.BAIDU_COOKIE.split('&');
+  if (process.env.BAIDU_COOKIE1 && process.env.BAIDU_COOKIE1.indexOf('&') > -1) {
+  StartBody = process.env.BAIDU_COOKIE1.split('&');
   }
- if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('\n') > -1) {
-  BDCookie = process.env.BAIDU_COOKIE.split('\n');
+ if (process.env.BAIDU_COOKIE1 && process.env.BAIDU_COOKIE1.indexOf('\n') > -1) {
+  BDCookie = process.env.BAIDU_COOKIE1.split('\n');
   } else {
-  BDCookie = process.env.BAIDU_COOKIE.split()
+  BDCookie = process.env.BAIDU_COOKIE1.split()
   }
   Object.keys(BDCookie).forEach((item) => {
         if (BDCookie[item]) {
