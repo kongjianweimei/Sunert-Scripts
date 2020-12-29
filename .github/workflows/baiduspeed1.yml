@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-        BAIDU_COOKIE: ${{ secrets.BAIDU_COOKIE1 }}
+        BAIDU_COOKIE: ${{ secrets.BAIDU1_COOKIE }}
         TZ: Asia/shanghai
     steps:
       - name: Checkout
@@ -26,10 +26,10 @@ jobs:
           cd ~/Scripts
           npm install
       - name: '运行 【百度极速1】'
-        if: env.BAIDU_COOKIE1
+        if: env.BAIDU1_COOKIE
         run: |
           cd ~/Scripts
-          node Task/baidu_speed1.js
+          node Task/baidu1_speed.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
