@@ -1,5 +1,5 @@
  
-name: 快手视频签到
+name: 快手视频签到1
  
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-        KS_TOKEN: ${{ secrets.KS_TOKEN }}
+        KS_TOKEN: ${{ secrets.KS_TOKEN1 }}
     steps:
       - name: Checkout
         run: |
@@ -25,11 +25,11 @@ jobs:
         run: |
           cd ~/Scripts
           npm install
-      - name: 运行 【快手视频签到】
-        if: env.KS_TOKEN
+      - name: 运行 【快手视频签到1】
+        if: env.KS_TOKEN1
         run: |
           cd ~/Scripts
-          node Task/kuaishou.js
+          node Task/kuaishou1.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY || github.event.client_payload.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH || github.event.client_payload.BARK_PUSH }}
