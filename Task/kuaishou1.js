@@ -49,10 +49,10 @@ const logs = false   //日志开关
 const $ = new Env('快手视频')
 let cookieArr = [];
 if ($.isNode()) {
-  if (process.env.KS_TOKEN && process.env.KS_TOKEN.indexOf('&') > -1) {
-      ks_tokens = process.env.KS_TOKEN.split('&');
+  if (process.env.KS_TOKEN1 && process.env.KS_TOKEN1.indexOf('&') > -1) {
+      ks_tokens = process.env.KS_TOKEN1.split('&');
   } else {
-      ks_tokens = process.env.KS_TOKEN.split()
+      ks_tokens = process.env.KS_TOKEN1.split()
   };
   Object.keys(ks_tokens).forEach((item) => {
         if (ks_tokens[item]) {
