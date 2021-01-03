@@ -9,7 +9,7 @@
   1.把URL的正则改为 https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?，添加hostname = nebula.kuaishou.com;
   2.点击设置页面的"积分兑好礼"即可
 
-兼容Nodejs,把获取的Cookie填入KS_TOKEN，多账号用"&"分开
+兼容Nodejs,把获取的Cookie填入KS_TOKEN1，多账号用"&"分开
 
 非专业人士制作，欢迎各位大佬提出宝贵意见和指导
 by Sunert
@@ -46,7 +46,7 @@ http:\/\/uploads2\.gifshow\.com\/rest\/n\/system\/speed url script-request-heade
 
 */
 const logs = false   //日志开关
-const $ = new Env('快手视频')
+const $ = new Env('快手视频1')
 let cookieArr = [];
 if ($.isNode()) {
   if (process.env.KS_TOKEN1 && process.env.KS_TOKEN1.indexOf('&') > -1) {
