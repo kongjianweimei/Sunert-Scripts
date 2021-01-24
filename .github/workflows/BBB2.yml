@@ -34,8 +34,8 @@ jobs:
       - name: '运行 【BBB】'
         if: env.BBB_ck
         run: |
-          cd ~/Scripts/Task
-          node BBB2.js
+          cd ~/Scripts
+          node /Task/BBB2.js
         env:
           BBB_ck: ${{ secrets.BBB_ck }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
